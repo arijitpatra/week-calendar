@@ -1,0 +1,16 @@
+.l-flex-1 {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.l-box-empty {
+  border: 1px solid #d4d4d4;
+  padding: 15px;
+}
+
+.l-box-filled {
+  border: 1px solid #d4d4d4;
+  padding: 3px;
+}
