@@ -63,21 +63,27 @@ class Calendar extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="l-flex-1">
+        <div className="l-flex-1 mt-5">
           <div className="l-flex-1">
             <i
-              className="fa fa-fw fa-chevron-left"
+              className={
+                "fa fa-fw fa-chevron-left g-cursor-pointer " +
+                (this.state.currentWeekNumber === 1 ? "invisible" : "")
+              }
               onClick={this.getPreviousWeek}
             />
           </div>
           {this.weekdaysShort.map(x => (
             <div className="l-flex-1" key={x}>
-              {x}
+              <b>{x}</b>
             </div>
           ))}
           <div className="l-flex-1">
             <i
-              className="fa fa-fw fa-chevron-right"
+              className={
+                "fa fa-fw fa-chevron-right g-cursor-pointer " +
+                (this.state.currentWeekNumber === 3 ? "invisible" : "")
+              }
               onClick={this.getNextWeek}
             />
           </div>
@@ -88,7 +94,7 @@ class Calendar extends Component {
             <i className="invisible fa fa-fw fa-chevron-left" />
           </div>
           {this.state.currentData.map(x => (
-            <div className="l-flex-1" key={x.id}>
+            <div className="l-flex-1 g-fs-32" key={x.id}>
               {x.date}
             </div>
           ))}
@@ -100,10 +106,7 @@ class Calendar extends Component {
         <div className="p-4">
           {this.state.timeSlot.map(c => (
             <div key={c} id={c}>
-              <div className="l-flex-1">
-                <div className="l-flex-1">
-                  <i className="invisible fa fa-fw fa-chevron-left" />
-                </div>
+              <div className="l-flex-1 l-row-align">
                 <div className="l-time-align">{c}</div>
                 {this.state.currentData.map(x => (
                   <div
@@ -119,9 +122,6 @@ class Calendar extends Component {
                     {x.content.length === 0 ? "" : x.content[c]}
                   </div>
                 ))}
-                <div className="l-flex-1">
-                  <i className="invisible fa fa-fw fa-chevron-right" />
-                </div>
               </div>
             </div>
           ))}
