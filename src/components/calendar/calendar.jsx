@@ -11,7 +11,17 @@ class Calendar extends Component {
       data: [],
       currentData: [],
       currentWeekNumber: 2,
-      timeSlot: ["10am", "11am", "12noon"]
+      timeSlot: [
+        "9am",
+        "10am",
+        "11am",
+        "12noon",
+        "1pm",
+        "2pm",
+        "3pm",
+        "4pm",
+        "5pm"
+      ]
     };
   }
 
@@ -87,20 +97,22 @@ class Calendar extends Component {
           </div>
         </div>
 
-        <div className="">
+        <div className="p-4">
           {this.state.timeSlot.map(c => (
             <div key={c} id={c}>
-              {c}
               <div className="l-flex-1">
                 <div className="l-flex-1">
                   <i className="invisible fa fa-fw fa-chevron-left" />
                 </div>
+                <div className="l-time-align">{c}</div>
                 {this.state.currentData.map(x => (
                   <div
                     id={x.date + "-" + c}
                     className={
                       "l-flex-1 " +
-                      (x.content === "" ? "l-box-empty" : "l-box-filled")
+                      (x.content[c] === undefined
+                        ? "l-box-empty"
+                        : "l-box-filled")
                     }
                     key={x.id}
                   >

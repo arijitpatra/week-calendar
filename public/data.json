@@ -32,7 +32,10 @@
       "id": 5,
       "weekNumber": 1,
       "date": 5,
-      "content": ""
+      "content": {
+        "9am": "hello",
+        "12noon": "good day"
+      }
     },
     {
       "id": 6,
@@ -50,7 +53,9 @@
       "id": 8,
       "weekNumber": 2,
       "date": 8,
-      "content": ""
+      "content": {
+        "2pm": "hello"
+      }
     },
     {
       "id": 9,
