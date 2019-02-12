@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./calendar.scss";
+import "./calendar.css";
 import moment from "moment";
 
 class Calendar extends Component {
@@ -62,9 +62,9 @@ class Calendar extends Component {
 
   editEvent(event, time, date, weekNumber) {
     console.log(event.target.value, time, date, weekNumber);
-    let modifiedData = this.state.data
-      .filter(x => x.weekNumber === weekNumber)
-      .filter(y => y.date === date);
+    // let modifiedData = this.state.data
+    //   .findIndex(x => x.weekNumber === weekNumber)
+    //   .findIndex(y => y.date === date);
     // // modifiedData.forEach(z => {
     // //   if (z.content.hasOwnProperty(time)) {
     // //     return (z.content[time] = event.target.value);
@@ -73,11 +73,35 @@ class Calendar extends Component {
     // //   }
     // // });
     // modifiedData.content[time] = "hello";
-    modifiedData.content = {
-      [date + "-" + time]: event.target.value
-    };
-    console.log(modifiedData);
+    // modifiedData.content = {
+    //   [date + "-" + time]: event.target.value
+    // };
+    // let weekIndex = this.state.currentData.findIndex(x => x.weekNumber === weekNumber);
+      // let dateIndex = this.state.currentData[weekIndex].findIndex(y => y.date === date);
+      // console.log(weekIndex, dateIndex);
+      // const locatedElement = this.state.currentData[week]
+      // this.state.currentData[modifiedData].content = {...this.state.currentData[modifiedData].content, [time]: event.target.value};
+    // console.log(this.state.currentData[modifiedData].content);
     // this.setState({ currentData: modifiedData });
+
+    const matchedObject = this.state.data
+      .filter(x => x.weekNumber === weekNumber)
+      .filter(y => y.date === date)[0];
+
+    const matchedObjectId = matchedObject.id;
+    const objectIndex = this.state.data.findIndex(x => x.id === matchedObjectId);
+
+    let dataCopy = Object.assign(this.state.data);
+    dataCopy[objectIndex].content = {...dataCopy[objectIndex].content, [time]: event.target.value};
+    const contentTimeSlots = Object.getOwnPropertyNames(dataCopy[objectIndex].content);
+    contentTimeSlots.forEach(x => {
+      if(dataCopy[objectIndex].content[x] === "") {
+        delete dataCopy[objectIndex].content[x];
+      }
+      });
+
+    this.setState({ data: dataCopy });
+    console.log(dataCopy);
   }
 
   render() {
