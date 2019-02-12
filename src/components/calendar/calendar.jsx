@@ -205,6 +205,7 @@ class Calendar extends Component {
                               <button
                                 type="button"
                                 className="btn btn-success btn-sm float-left"
+                                data-dismiss="modal"
                                 onClick={() => this.saveEvent(c, x.date, this.state.currentWeekNumber)}
                               >
                                 Add / Edit
@@ -212,6 +213,7 @@ class Calendar extends Component {
                               <button
                                 type="button"
                                 className="btn btn-danger btn-sm float-right"
+                                data-dismiss="modal"
                                 onClick={() => this.deleteEvent(c, x.date, this.state.currentWeekNumber)}
                               >
                                 Delete
