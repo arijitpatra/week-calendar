@@ -184,6 +184,7 @@ class Calendar extends Component {
 
                           <div className="modal-body">
                             <input
+                              className="w-100 p-2"
                               type="text"
                               defaultValue={
                                 x.content.length === 0 ? "" : x.content[c]
@@ -197,6 +198,20 @@ class Calendar extends Component {
                                 )
                               }
                             />
+                            <div className="mt-3 mb-3">
+                            <button
+                              type="button"
+                              className="btn btn-success btn-sm float-left"
+                            >
+                              Add / Edit
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-danger btn-sm float-right"
+                            >
+                              Delete
+                            </button>
+                            </div>  
                           </div>
                         </div>
                       </div>
