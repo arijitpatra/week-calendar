@@ -60,6 +60,26 @@ class Calendar extends Component {
     });
   };
 
+  editEvent(event, time, date, weekNumber) {
+    console.log(event.target.value, time, date, weekNumber);
+    let modifiedData = this.state.data
+      .filter(x => x.weekNumber === weekNumber)
+      .filter(y => y.date === date);
+    // // modifiedData.forEach(z => {
+    // //   if (z.content.hasOwnProperty(time)) {
+    // //     return (z.content[time] = event.target.value);
+    // //   } else {
+    // //     console.log(false);
+    // //   }
+    // // });
+    // modifiedData.content[time] = "hello";
+    modifiedData.content = {
+      [date + "-" + time]: event.target.value
+    };
+    console.log(modifiedData);
+    // this.setState({ currentData: modifiedData });
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -109,18 +129,55 @@ class Calendar extends Component {
               <div className="l-flex-1 l-row-align">
                 <div className="l-time-align">{c}</div>
                 {this.state.currentData.map(x => (
-                  <div
-                    id={x.date + "-" + c}
-                    className={
-                      "l-flex-1 " +
-                      (x.content[c] === undefined
-                        ? "l-box-empty"
-                        : "l-box-filled")
-                    }
-                    key={x.id}
-                  >
-                    {x.content.length === 0 ? "" : x.content[c]}
-                  </div>
+                  <React.Fragment key={x.date + "-" + c + "-fragment"}>
+                    <div
+                      id={x.date + "-" + c}
+                      className={
+                        "l-flex-1 " +
+                        (x.content[c] === undefined
+                          ? "l-box-empty"
+                          : "l-box-filled")
+                      }
+                      key={x.date + "-" + c}
+                      data-toggle="modal"
+                      data-target={"#" + x.date + "-" + c + "-modal"}
+                    >
+                      {x.content.length === 0 ? "" : x.content[c]}
+                    </div>
+                    <div className="modal" id={x.date + "-" + c + "-modal"}>
+                      <div className="modal-dialog">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h4 className="modal-title">Modify Event</h4>
+                            <button
+                              type="button"
+                              className="close"
+                              data-dismiss="modal"
+                            >
+                              &times;
+                            </button>
+                          </div>
+
+                          <div className="modal-body">
+                            <input
+                              type="text"
+                              defaultValue={
+                                x.content.length === 0 ? "" : x.content[c]
+                              }
+                              onChange={e =>
+                                this.editEvent(
+                                  e,
+                                  c,
+                                  x.date,
+                                  this.state.currentWeekNumber
+                                )
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </React.Fragment>
                 ))}
               </div>
             </div>
