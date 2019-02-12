@@ -169,7 +169,6 @@ class Calendar extends Component {
               />
             </div>
           </div>
-
           <div className="l-flex-1">
             <div className="l-flex-1">
               <i className="invisible fa fa-fw fa-chevron-left" />
@@ -183,7 +182,6 @@ class Calendar extends Component {
               <i className="invisible fa fa-fw fa-chevron-right" />
             </div>
           </div>
-
           <div className="p-4">
             {this.state.timeSlot.map(c => (
               <div key={c} id={c}>
@@ -227,7 +225,6 @@ class Calendar extends Component {
                                 &times;
                               </button>
                             </div>
-
                             <div className="modal-body">
                               <input
                                 className="w-100 p-2"
