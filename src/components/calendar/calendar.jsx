@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./calendar.scss";
 import moment from "moment";
+import Loader from "../loader/loader";
 
 class Calendar extends Component {
   constructor(props) {
@@ -83,7 +84,6 @@ class Calendar extends Component {
   }
 
   saveEvent(time, date, weekNumber) {
-    console.log(time, date, weekNumber);
     const matchedObject = this.state.data
       .filter(x => x.weekNumber === weekNumber)
       .filter(y => y.date === date)[0];
@@ -108,11 +108,9 @@ class Calendar extends Component {
     });
 
     this.setState({ data: dataCopy });
-    console.log(dataCopy);
   }
 
   deleteEvent(time, date, weekNumber) {
-    console.log(time, date, weekNumber);
     const matchedObject = this.state.data
       .filter(x => x.weekNumber === weekNumber)
       .filter(y => y.date === date)[0];
@@ -137,14 +135,14 @@ class Calendar extends Component {
     });
 
     this.setState({ data: dataCopy });
-    console.log(dataCopy);
   }
 
   render() {
     if (this.state.isLoading === false) {
       return (
         <React.Fragment>
-          <div className="l-flex-1 mt-5">
+          {/* 1 - This will be the component for weeks and previous, next week navigation buttons */}
+          <div className="l-flex-1 mt-4">
             <div className="l-flex-1">
               <i
                 className={
@@ -154,9 +152,9 @@ class Calendar extends Component {
                 onClick={this.getPreviousWeek}
               />
             </div>
-            {this.weekdaysShort.map(x => (
-              <div className="l-flex-1" key={x}>
-                <b>{x}</b>
+            {this.weekdaysShort.map(day => (
+              <div className="l-flex-1" key={day}>
+                <b>{day}</b>
               </div>
             ))}
             <div className="l-flex-1">
@@ -169,41 +167,56 @@ class Calendar extends Component {
               />
             </div>
           </div>
+          {/* 1 - Ends Here */}
+
+          {/* 2 - This will be the component for displaying the dates below the week days */}
           <div className="l-flex-1">
             <div className="l-flex-1">
               <i className="invisible fa fa-fw fa-chevron-left" />
             </div>
-            {this.state.currentData.map(x => (
-              <div className="l-flex-1 g-fs-32" key={x.id}>
-                {x.date}
+            {this.state.currentData.map(dataItem => (
+              <div className="l-flex-1 g-fs-32" key={dataItem.id}>
+                {dataItem.date}
               </div>
             ))}
             <div className="l-flex-1">
               <i className="invisible fa fa-fw fa-chevron-right" />
             </div>
           </div>
+          {/* 2 - Ends Here */}
+
+          {/* 3 - This will be the component that takes care of the grid of days/dates and timeslots along with the modal */}
           <div className="p-4">
-            {this.state.timeSlot.map(c => (
-              <div key={c} id={c}>
+            {this.state.timeSlot.map(timeItem => (
+              <div key={timeItem} id={timeItem}>
                 <div className="l-flex-1 l-row-align">
-                  <div className="l-time-align">{c}</div>
-                  {this.state.currentData.map(x => (
-                    <React.Fragment key={x.date + "-" + c + "-fragment"}>
+                  <div className="l-time-align">{timeItem}</div>
+                  {this.state.currentData.map(dataItem => (
+                    <React.Fragment
+                      key={dataItem.date + "-" + timeItem + "-fragment"}
+                    >
                       <div
-                        id={x.date + "-" + c}
+                        id={dataItem.date + "-" + timeItem}
                         className={
                           "l-flex-1 " +
-                          (x.content[c] === undefined
+                          (dataItem.content[timeItem] === undefined
                             ? "l-box-empty"
                             : "l-box-filled")
                         }
-                        key={x.date + "-" + c}
+                        key={dataItem.date + "-" + timeItem}
                         data-toggle="modal"
-                        data-target={"#" + x.date + "-" + c + "-modal"}
+                        data-target={
+                          "#" + dataItem.date + "-" + timeItem + "-modal"
+                        }
                       >
-                        {x.content.length === 0 ? "" : x.content[c]}
+                        {dataItem.content.length === 0
+                          ? ""
+                          : dataItem.content[timeItem]}
                       </div>
-                      <div className="modal" id={x.date + "-" + c + "-modal"}>
+                      <div
+                        className="modal"
+                        id={dataItem.date + "-" + timeItem + "-modal"}
+                      >
                         <div className="modal-dialog">
                           <div className="modal-content">
                             <div className="modal-header">
@@ -211,11 +224,11 @@ class Calendar extends Component {
                                 Modify Event -{" "}
                                 {this.currentMonth +
                                   " " +
-                                  x.date +
+                                  dataItem.date +
                                   ", " +
                                   this.currentYear +
                                   " - " +
-                                  c}{" "}
+                                  timeItem}{" "}
                               </h5>
                               <button
                                 type="button"
@@ -230,7 +243,9 @@ class Calendar extends Component {
                                 className="w-100 p-2"
                                 type="text"
                                 defaultValue={
-                                  x.content.length === 0 ? "" : x.content[c]
+                                  dataItem.content.length === 0
+                                    ? ""
+                                    : dataItem.content[timeItem]
                                 }
                                 onChange={e => this.editEvent(e)}
                               />
@@ -241,8 +256,8 @@ class Calendar extends Component {
                                   data-dismiss="modal"
                                   onClick={() =>
                                     this.saveEvent(
-                                      c,
-                                      x.date,
+                                      timeItem,
+                                      dataItem.date,
                                       this.state.currentWeekNumber
                                     )
                                   }
@@ -255,8 +270,8 @@ class Calendar extends Component {
                                   data-dismiss="modal"
                                   onClick={() =>
                                     this.deleteEvent(
-                                      c,
-                                      x.date,
+                                      timeItem,
+                                      dataItem.date,
                                       this.state.currentWeekNumber
                                     )
                                   }
@@ -274,15 +289,11 @@ class Calendar extends Component {
               </div>
             ))}
           </div>
+          {/* 3 - Ends Here */}
         </React.Fragment>
       );
     } else {
-      return (
-        <div className="row p-0 m-0 justify-content-center align-items-center l-loader">
-          <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
-          <span className="sr-only">Loading...</span>
-        </div>
-      );
+      return <Loader />;
     }
   }
 }

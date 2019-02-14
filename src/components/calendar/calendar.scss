@@ -16,18 +16,29 @@
   padding: 3px 15px;
   height: 75px;
   background: #f1f1f1;
+  font-size: 11px;
 }
 
 .l-time-align {
   position: absolute;
   left: 5%;
+  font-size: 14px;
 }
 
 .l-row-align {
   padding: 0px 9%;
 }
 
-.l-loader {
-  width: 100vw;
-  height: 90vh;
+@media (max-width: 768px) {
+  .l-time-align {
+    position: absolute;
+    left: 3%;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 991px) {
+  .l-time-align {
+    left: 4%;
+  }
 }
